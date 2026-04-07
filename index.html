@@ -161,6 +161,7 @@
         .combined-major-marker { display: block; background-color: #3498db; color: #ffffff; }
         .combined-minor-marker { display: block; background-color: #e74c3c; color: #ffffff; }
         .combined-shared-marker { display: block; background-color: #2ecc71; color: #000000; }
+        .combined-root-marker { display: block; background-color: #f1c40f; color: #000000; }
 
         @keyframes wrongShake {
             0% { transform: translate(-50%, -50%) rotate(0deg); }
@@ -438,9 +439,10 @@
         };
 
         function getCombinedMarkerClass(intervalName) {
+            if (intervalName === "1") return "combined-root-marker";
             if (["2", "3", "6"].includes(intervalName)) return "combined-major-marker";
             if (["♭3", "4", "♭7"].includes(intervalName)) return "combined-minor-marker";
-            if (["1", "5"].includes(intervalName)) return "combined-shared-marker";
+            if (intervalName === "5") return "combined-shared-marker";
             return "";
         }
 
@@ -938,7 +940,8 @@
                 let alreadyFound = noteMarker.classList.contains("correct-marker") ||
                     noteMarker.classList.contains("combined-major-marker") ||
                     noteMarker.classList.contains("combined-minor-marker") ||
-                    noteMarker.classList.contains("combined-shared-marker");
+                    noteMarker.classList.contains("combined-shared-marker") ||
+                    noteMarker.classList.contains("combined-root-marker");
 
                 if (!alreadyFound) {
                     let clickedNote = cell.dataset.note;
@@ -1533,7 +1536,7 @@
             if (foundCount >= requiredTotal) return;
 
             const noteMarker = clickedCell.querySelector(".note-marker");
-            if (noteMarker.classList.contains("correct-marker") || noteMarker.classList.contains("combined-major-marker") || noteMarker.classList.contains("combined-minor-marker") || noteMarker.classList.contains("combined-shared-marker") || noteMarker.classList.contains("hint-marker")) {
+            if (noteMarker.classList.contains("correct-marker") || noteMarker.classList.contains("combined-major-marker") || noteMarker.classList.contains("combined-minor-marker") || noteMarker.classList.contains("combined-shared-marker") || noteMarker.classList.contains("combined-root-marker") || noteMarker.classList.contains("hint-marker")) {
                 if (noteMarker.classList.contains("hint-marker")) {
                     noteMarker.classList.remove("hint-marker", "hint-root-marker");
                     if (currentScale === "Combined Pentatonic") {
