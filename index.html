@@ -1150,34 +1150,43 @@
                 return;
             }
 
-            let shapeId = formToPentaShapeMap[baseType][currentForm];
-            let shape = activeShapes[shapeId];
-            let anchorConfig = pentaRootOffsets[baseType][currentForm];
-            let anchorStringNotes = stringsNotes[anchorConfig.s];
-
-            let rootFrets = [];
-            for(let f = 0; f <= 24; f++) {
-                if (anchorStringNotes[f] === rootForFretboard) {
-                    rootFrets.push(f - anchorConfig.off); 
-                }
+            // Combined Pentatonic: Major + Minor 양쪽 Shape 범위를 모두 커버
+            let shapesToUse = [];
+            if (currentScale === "Combined Pentatonic") {
+                shapesToUse.push({ shapeId: formToPentaShapeMap["Major"][currentForm], anchor: pentaRootOffsets["Major"][currentForm] });
+                shapesToUse.push({ shapeId: formToPentaShapeMap["Minor"][currentForm], anchor: pentaRootOffsets["Minor"][currentForm] });
+            } else {
+                shapesToUse.push({ shapeId: formToPentaShapeMap[baseType][currentForm], anchor: pentaRootOffsets[baseType][currentForm] });
             }
 
-            rootFrets.forEach(leftmost => {
-                for (let s = 0; s < 6; s++) {
-                    let pFrets = shape.frets[s];
-                    let minF = leftmost + pFrets[0];
-                    let maxF = leftmost + pFrets[1];
-                    for (let f = minF; f <= maxF; f++) {
-                        if (f >= 0 && f <= 24) {
-                            let note = stringsNotes[s][f];
-                            let diff = (chromaticScale.indexOf(note) - chromaticScale.indexOf(rootForFretboard) + 12) % 12;
-                            if (scaleIntervals[currentScale].hasOwnProperty(diff)) {
-                                let id = `${s}-${f}`;
-                                if(!requiredCells.includes(id)) requiredCells.push(id);
+            shapesToUse.forEach(({ shapeId, anchor }) => {
+                let shape = activeShapes[shapeId];
+                let anchorStringNotes = stringsNotes[anchor.s];
+
+                let rootFrets = [];
+                for(let f = 0; f <= 24; f++) {
+                    if (anchorStringNotes[f] === rootForFretboard) {
+                        rootFrets.push(f - anchor.off); 
+                    }
+                }
+
+                rootFrets.forEach(leftmost => {
+                    for (let s = 0; s < 6; s++) {
+                        let pFrets = shape.frets[s];
+                        let minF = leftmost + pFrets[0];
+                        let maxF = leftmost + pFrets[1];
+                        for (let f = minF; f <= maxF; f++) {
+                            if (f >= 0 && f <= 24) {
+                                let note = stringsNotes[s][f];
+                                let diff = (chromaticScale.indexOf(note) - chromaticScale.indexOf(rootForFretboard) + 12) % 12;
+                                if (scaleIntervals[currentScale].hasOwnProperty(diff)) {
+                                    let id = `${s}-${f}`;
+                                    if(!requiredCells.includes(id)) requiredCells.push(id);
+                                }
                             }
                         }
                     }
-                }
+                });
             });
 
             requiredTotal = requiredCells.length;
