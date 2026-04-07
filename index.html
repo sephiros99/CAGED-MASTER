@@ -58,14 +58,14 @@
         
         #message { height: 30px; font-size: 1.1em; margin-top: 10px; font-weight: bold; color: #2ecc71;}
 
-        .option-row { margin-bottom: 6px; display: flex; align-items: center; justify-content: flex-end; width: 100%;}
-        .option-label { margin-right: 10px; color: #f39c12; font-size: 0.9em; font-weight: bold; letter-spacing: 1px; }
+        .option-row { margin-bottom: 6px; display: flex; align-items: center; justify-content: flex-end; width: 100%; flex-wrap: nowrap;}
+        .option-label { margin-right: 10px; color: #f39c12; font-size: 0.9em; font-weight: bold; letter-spacing: 1px; white-space: nowrap; }
         
         .opt-btn {
             background-color: #222; color: #bdc3c7;
             border: 1px solid #555; padding: 8px 12px; 
             font-size: 0.9em; cursor: pointer; border-radius: 4px;
-            margin-left: 6px; transition: all 0.2s; font-weight: bold;
+            margin-left: 6px; transition: all 0.2s; font-weight: bold; white-space: nowrap;
         }
         .opt-btn:hover { background-color: #34495e; color: #fff;}
         .opt-btn.active {
@@ -157,6 +157,10 @@
         .correct-marker, .all-mode-marker, .hint-marker { display: block !important; background-color: #2ecc71; }
         .correct-marker.root-marker, .all-mode-marker.root-marker, .hint-marker.hint-root-marker { background-color: #f1c40f !important; }
         .wrong-marker { display: block !important; background-color: #e74c3c !important; color: #ffffff !important; animation: wrongShake 0.4s; }
+
+        .combined-major-marker { display: block; background-color: #3498db; color: #ffffff; }
+        .combined-minor-marker { display: block; background-color: #e74c3c; color: #ffffff; }
+        .combined-shared-marker { display: block; background-color: #2ecc71; color: #000000; }
 
         @keyframes wrongShake {
             0% { transform: translate(-50%, -50%) rotate(0deg); }
@@ -346,6 +350,10 @@
                 <button class="opt-btn scale-btn random-btn active" data-val="RANDOM">🎲 랜덤</button>
                 <button class="opt-btn scale-btn" data-val="Major Pentatonic">Maj Penta</button>
                 <button class="opt-btn scale-btn" data-val="Minor Pentatonic">min Penta</button>
+                <button class="opt-btn scale-btn" data-val="Combined Pentatonic">Maj+Min Penta</button>
+            </div>
+            <div class="option-row" id="row-scale-2">
+                <span class="option-label"></span>
                 <button class="opt-btn scale-btn" data-val="Major Scale">Major</button>
                 <button class="opt-btn scale-btn" data-val="Minor Scale">minor</button>
             </div>
@@ -424,9 +432,17 @@
         const scaleIntervals = {
             "Major Pentatonic": { 0: "1", 2: "2", 4: "3", 7: "5", 9: "6" },
             "Minor Pentatonic": { 0: "1", 3: "♭3", 5: "4", 7: "5", 10: "♭7" },
+            "Combined Pentatonic": { 0: "1", 2: "2", 3: "♭3", 4: "3", 5: "4", 7: "5", 9: "6", 10: "♭7" },
             "Major Scale":      { 0: "1", 2: "2", 4: "3", 5: "4", 7: "5", 9: "6", 11: "7" },
             "Minor Scale":      { 0: "1", 2: "2", 3: "♭3", 5: "4", 7: "5", 8: "♭6", 10: "♭7" }
         };
+
+        function getCombinedMarkerClass(intervalName) {
+            if (["2", "3", "6"].includes(intervalName)) return "combined-major-marker";
+            if (["♭3", "4", "♭7"].includes(intervalName)) return "combined-minor-marker";
+            if (["1", "5"].includes(intervalName)) return "combined-shared-marker";
+            return "";
+        }
 
         const scaleSpellings = {
             "Major": {
@@ -528,7 +544,7 @@
         };
 
         const rootsPool = ["C", "D", "E", "F", "G", "A", "B"];
-        const scalesPool = ["Major Pentatonic", "Minor Pentatonic", "Major Scale", "Minor Scale"];
+        const scalesPool = ["Major Pentatonic", "Minor Pentatonic", "Combined Pentatonic", "Major Scale", "Minor Scale"];
         const formsPool = ["ALL", "C", "A", "G", "E", "D"]; 
 
         let isGameMode = false;
@@ -688,6 +704,7 @@
 
         function updateKeyAndNotesDisplay() {
             let baseType = currentScale.includes("Major") ? "Major" : "Minor";
+            if (currentScale === "Combined Pentatonic") baseType = "Major";
             let keySig = keySigsCorrected[baseType][currentRoot];
             keySigDisplayEl.innerText = keySig ? `${keySig} (${currentRoot} ${baseType})` : "조표 데이터 부족";
 
@@ -702,7 +719,16 @@
             }
 
             let displayNotes = [];
-            if (currentScale.includes("Pentatonic")) {
+            if (currentScale === "Combined Pentatonic") {
+                // Minor Pentatonic 고유 3음(♭3, 4, ♭7): Minor 스펠링에서 가져옴
+                let minorSpelled = scaleSpellings["Minor"][currentRoot];
+                if (minorSpelled) {
+                    // 8개 음: 1, 2, ♭3, 3, 4, 5, 6, ♭7 (반음 순서)
+                    displayNotes = [spelledArray[0], spelledArray[1], minorSpelled[2], spelledArray[2], minorSpelled[3], spelledArray[4], spelledArray[5], minorSpelled[6]];
+                } else {
+                    displayNotes = [spelledArray[0], spelledArray[1], spelledArray[2], spelledArray[4], spelledArray[5]];
+                }
+            } else if (currentScale.includes("Pentatonic")) {
                 if (baseType === "Major") {
                     displayNotes = [spelledArray[0], spelledArray[1], spelledArray[2], spelledArray[4], spelledArray[5]];
                 } else {
@@ -717,6 +743,20 @@
         function getMarkerText(intervalName) {
             if (selectedViewOpt === "INTERVAL") return intervalName; 
             
+            if (currentScale === "Combined Pentatonic") {
+                const minorIntervals = ["♭3", "4", "♭7"];
+                if (minorIntervals.includes(intervalName)) {
+                    let spelledArray = scaleSpellings["Minor"][currentRoot];
+                    let idx = intervalToIndexMap["Minor"][intervalName];
+                    if (spelledArray && idx !== undefined) return spelledArray[idx];
+                } else {
+                    let spelledArray = scaleSpellings["Major"][currentRoot];
+                    let idx = intervalToIndexMap["Major"][intervalName];
+                    if (spelledArray && idx !== undefined) return spelledArray[idx];
+                }
+                return intervalName;
+            }
+
             let baseType = currentScale.includes("Major") ? "Major" : "Minor";
             let spelledArray = scaleSpellings[baseType][currentRoot];
             let idx = intervalToIndexMap[baseType][intervalName];
@@ -729,7 +769,9 @@
             const formCBtn = document.querySelector('.form-btn[data-val="C"]');
             const formGBtn = document.querySelector('.form-btn[data-val="G"]');
 
-            if (selectedFormOpt === 'ALL' || selectedFormOpt === 'RANDOM') {
+            const isCombinedPenta = selectedScaleOpt === "Combined Pentatonic" || currentScale === "Combined Pentatonic";
+
+            if (selectedFormOpt === 'ALL' || selectedFormOpt === 'RANDOM' || isCombinedPenta) {
                 chordBtn.classList.add('disabled-btn');
                 if (selectedTypeOpt === 'CHORD') {
                     selectedTypeOpt = 'SCALE';
@@ -886,12 +928,19 @@
             
             let rootForFretboard = flatToSharp[currentRoot] || currentRoot;
 
+            let hintedMarkers = [];
+
             requiredCells.forEach(cellId => {
                 let [s, f] = cellId.split('-');
                 let cell = document.querySelector(`td[data-s='${s}'][data-f='${f}']`);
                 let noteMarker = cell.querySelector(".note-marker");
                 
-                if (!noteMarker.classList.contains("correct-marker")) {
+                let alreadyFound = noteMarker.classList.contains("correct-marker") ||
+                    noteMarker.classList.contains("combined-major-marker") ||
+                    noteMarker.classList.contains("combined-minor-marker") ||
+                    noteMarker.classList.contains("combined-shared-marker");
+
+                if (!alreadyFound) {
                     let clickedNote = cell.dataset.note;
                     let rootIndex = chromaticScale.indexOf(rootForFretboard);
                     let noteIndex = chromaticScale.indexOf(clickedNote);
@@ -900,9 +949,18 @@
 
                     noteMarker.dataset.interval = intervalName; 
                     noteMarker.innerText = getMarkerText(intervalName);
-                    noteMarker.classList.add("hint-marker"); 
-                    if (intervalName === "1") {
-                        noteMarker.classList.add("hint-root-marker");
+
+                    if (currentScale === "Combined Pentatonic") {
+                        let combinedClass = getCombinedMarkerClass(intervalName);
+                        if (combinedClass) {
+                            noteMarker.classList.add(combinedClass);
+                            hintedMarkers.push({ marker: noteMarker, cls: combinedClass });
+                        }
+                    } else {
+                        noteMarker.classList.add("hint-marker"); 
+                        if (intervalName === "1") {
+                            noteMarker.classList.add("hint-root-marker");
+                        }
                     }
                 }
             });
@@ -911,10 +969,17 @@
             messageEl.innerText = `정답을 3초간 개방합니다. 집중하십시오!`;
 
             hintTimerId = setTimeout(() => {
-                document.querySelectorAll(".hint-marker").forEach(marker => {
-                    marker.classList.remove("hint-marker", "hint-root-marker");
-                    marker.innerText = ""; 
-                });
+                if (currentScale === "Combined Pentatonic") {
+                    hintedMarkers.forEach(({ marker, cls }) => {
+                        marker.classList.remove(cls);
+                        marker.innerText = "";
+                    });
+                } else {
+                    document.querySelectorAll(".hint-marker").forEach(marker => {
+                        marker.classList.remove("hint-marker", "hint-root-marker");
+                        marker.innerText = ""; 
+                    });
+                }
                 messageEl.style.color = "#f39c12";
                 messageEl.innerText = `⚔️ 타겟을 찾아 지판을 클릭하십시오. (성공: ${foundCount}/${requiredTotal})`;
             }, 3000);
@@ -1015,6 +1080,7 @@
             requiredCells = [];
             let isPentatonic = currentScale.includes("Pentatonic");
             let baseType = currentScale.includes("Major") ? "Major" : "Minor";
+            if (currentScale === "Combined Pentatonic") baseType = "Major";
             let rootForFretboard = flatToSharp[currentRoot] || currentRoot;
             
             let activeShapes = isPentatonic ? pentatonicShapes : diatonicShapes;
@@ -1228,14 +1294,18 @@
                         noteMarker.dataset.interval = intervalName;
                         noteMarker.innerText = getMarkerText(intervalName);
                         
-                        if (isPentatonic && selectedTypeOpt !== "CHORD") {
+                        if (currentScale === "Combined Pentatonic") {
+                            noteMarker.classList.add(getCombinedMarkerClass(intervalName));
+                        } else if (isPentatonic && selectedTypeOpt !== "CHORD") {
                             noteMarker.classList.add("all-mode-marker"); 
+                            if (intervalName === "1") {
+                                noteMarker.classList.add("root-marker");
+                            }
                         } else {
                             noteMarker.classList.add("correct-marker"); 
-                        }
-                        
-                        if (intervalName === "1") {
-                            noteMarker.classList.add("root-marker");
+                            if (intervalName === "1") {
+                                noteMarker.classList.add("root-marker");
+                            }
                         }
                     }
                 }
@@ -1261,13 +1331,18 @@
                         noteMarker.dataset.interval = intervalName;
                         noteMarker.innerText = getMarkerText(intervalName);
                         
-                        if (isPentatonic) {
+                        if (currentScale === "Combined Pentatonic") {
+                            noteMarker.classList.add(getCombinedMarkerClass(intervalName));
+                        } else if (isPentatonic) {
                             noteMarker.classList.add("all-mode-marker"); 
+                            if (intervalName === "1") {
+                                noteMarker.classList.add("root-marker");
+                            }
                         } else {
                             noteMarker.classList.add("correct-marker"); 
-                        }
-                        if (intervalName === "1") {
-                            noteMarker.classList.add("root-marker");
+                            if (intervalName === "1") {
+                                noteMarker.classList.add("root-marker");
+                            }
                         }
                     }
                 }
@@ -1275,6 +1350,7 @@
         }
 
         function drawConnectionLines() {
+            if (currentScale === "Combined Pentatonic") return;
             if (currentForm !== "ALL") return;
 
             let isMajorPenta = currentScale === "Major Pentatonic";
@@ -1384,8 +1460,12 @@
 
             updateHighlighterBtnUI(); 
 
-            targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} ${currentScale}` : `${currentForm}폼의 ${currentRoot} ${currentScale}`;
-            if(selectedTypeOpt === "CHORD") {
+            if (currentScale === "Combined Pentatonic") {
+                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} Combined Pentatonic` : `${currentForm}폼의 ${currentRoot} Combined Pentatonic`;
+            } else {
+                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} ${currentScale}` : `${currentForm}폼의 ${currentRoot} ${currentScale}`;
+            }
+            if(selectedTypeOpt === "CHORD" && currentScale !== "Combined Pentatonic") {
                 let baseType = currentScale.includes("Major") ? "Major" : "Minor";
                 targetNoteEl.innerText = `${currentForm} ${baseType} Code Shape (${currentRoot})`;
             }
@@ -1425,8 +1505,12 @@
 
             updateHighlighterBtnUI(); 
 
-            targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} ${currentScale}` : `${currentForm}폼의 ${currentRoot} ${currentScale}`;
-            if(selectedTypeOpt === "CHORD") {
+            if (currentScale === "Combined Pentatonic") {
+                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} Combined Pentatonic` : `${currentForm}폼의 ${currentRoot} Combined Pentatonic`;
+            } else {
+                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} ${currentScale}` : `${currentForm}폼의 ${currentRoot} ${currentScale}`;
+            }
+            if(selectedTypeOpt === "CHORD" && currentScale !== "Combined Pentatonic") {
                 let baseType = currentScale.includes("Major") ? "Major" : "Minor";
                 targetNoteEl.innerText = `${currentForm} ${baseType} Code Shape (${currentRoot})`;
             }
@@ -1449,11 +1533,16 @@
             if (foundCount >= requiredTotal) return;
 
             const noteMarker = clickedCell.querySelector(".note-marker");
-            if (noteMarker.classList.contains("correct-marker") || noteMarker.classList.contains("hint-marker")) {
+            if (noteMarker.classList.contains("correct-marker") || noteMarker.classList.contains("combined-major-marker") || noteMarker.classList.contains("combined-minor-marker") || noteMarker.classList.contains("combined-shared-marker") || noteMarker.classList.contains("hint-marker")) {
                 if (noteMarker.classList.contains("hint-marker")) {
                     noteMarker.classList.remove("hint-marker", "hint-root-marker");
-                    noteMarker.classList.add("correct-marker");
-                    if (noteMarker.dataset.interval === "1") noteMarker.classList.add("root-marker");
+                    if (currentScale === "Combined Pentatonic") {
+                        let combinedClass = getCombinedMarkerClass(noteMarker.dataset.interval);
+                        if (combinedClass) noteMarker.classList.add(combinedClass);
+                    } else {
+                        noteMarker.classList.add("correct-marker");
+                        if (noteMarker.dataset.interval === "1") noteMarker.classList.add("root-marker");
+                    }
                     foundCount++;
                 } else {
                     return; 
@@ -1473,10 +1562,15 @@
 
                     noteMarker.dataset.interval = intervalName;
                     noteMarker.innerText = getMarkerText(intervalName);
-                    noteMarker.classList.add("correct-marker"); 
                     
-                    if (intervalName === "1") {
-                        noteMarker.classList.add("root-marker");
+                    if (currentScale === "Combined Pentatonic") {
+                        let combinedClass = getCombinedMarkerClass(intervalName);
+                        if (combinedClass) noteMarker.classList.add(combinedClass);
+                    } else {
+                        noteMarker.classList.add("correct-marker"); 
+                        if (intervalName === "1") {
+                            noteMarker.classList.add("root-marker");
+                        }
                     }
 
                     if (noteMarker.classList.contains("wrong-marker")) {
