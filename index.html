@@ -292,6 +292,31 @@
         .diatonic-num { font-size: 1.0em; color: #bdc3c7; margin-bottom: 8px; font-weight: bold; }
         .diatonic-chord { font-size: 1.3em; font-weight: 900; color: #f1c40f; }
 
+        /* 모바일 세로 모드 반응형 */
+        @media screen and (max-width: 768px) {
+            body { padding: 10px; }
+            .top-header {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .left-panel { justify-self: center; text-align: center; align-items: center; }
+            .center-panel { width: 100%; }
+            .right-panel { justify-self: center; align-items: stretch; width: 100%; }
+            .option-row { justify-content: center; flex-wrap: wrap; gap: 4px; }
+            .opt-btn { margin-left: 0; padding: 6px 8px; font-size: 0.8em; }
+            .option-label { margin-right: 6px; font-size: 0.8em; min-width: 50px; text-align: right; }
+            h1 { font-size: 1.3em; }
+            .mode-btn { padding: 6px 12px; font-size: 0.85em; }
+            #target-display { font-size: 1em; padding: 10px; }
+            #target-note { font-size: 1.1em; }
+            .key-sig-text { font-size: 1.2em; }
+            .notes-list-text { font-size: 1.1em; }
+            .bottom-panel { flex-direction: column; }
+            .bottom-card { width: 100%; box-sizing: border-box; }
+            #circle-of-fifths { width: 250px; height: 250px; }
+            .cof-slice { width: 40px; height: 40px; line-height: 40px; font-size: 0.85em; margin-top: -20px; margin-left: -20px; }
+        }
+
     </style>
 </head>
 <body>
