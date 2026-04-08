@@ -356,8 +356,8 @@
         <div class="right-panel">
             <div class="option-row" id="row-root">
                 <span class="option-label">ROOT</span>
-                <button class="opt-btn root-btn random-btn active" data-val="RANDOM">🎲 랜덤</button>
-                <button class="opt-btn root-btn" data-val="C">C</button>
+                <button class="opt-btn root-btn random-btn" data-val="RANDOM">🎲 랜덤</button>
+                <button class="opt-btn root-btn active" data-val="C">C</button>
                 <button class="opt-btn root-btn" data-val="D">D</button>
                 <button class="opt-btn root-btn" data-val="E">E</button>
                 <button class="opt-btn root-btn" data-val="F">F</button>
@@ -373,8 +373,8 @@
             </div>
             <div class="option-row" id="row-scale">
                 <span class="option-label">SCALE</span>
-                <button class="opt-btn scale-btn random-btn active" data-val="RANDOM">🎲 랜덤</button>
-                <button class="opt-btn scale-btn" data-val="Major Pentatonic">Maj Penta</button>
+                <button class="opt-btn scale-btn random-btn" data-val="RANDOM">🎲 랜덤</button>
+                <button class="opt-btn scale-btn active" data-val="Major Pentatonic">Maj Penta</button>
                 <button class="opt-btn scale-btn" data-val="Minor Pentatonic">min Penta</button>
                 <button class="opt-btn scale-btn" data-val="Combined Pentatonic">Maj+Min Penta</button>
             </div>
@@ -385,9 +385,9 @@
             </div>
             <div class="option-row" id="row-form">
                 <span class="option-label">FORM</span>
-                <button class="opt-btn form-btn random-btn active" data-val="RANDOM">🎲 랜덤</button>
-                <button class="opt-btn form-btn" data-val="ALL">전체</button>
-                <button class="opt-btn form-btn" data-val="C">C</button>
+                <button class="opt-btn form-btn random-btn" data-val="RANDOM">🎲 랜덤</button>
+                <button class="opt-btn form-btn" data-val="ALL">전체 (ALL)</button>
+                <button class="opt-btn form-btn active" data-val="C">C</button>
                 <button class="opt-btn form-btn" data-val="A">A</button>
                 <button class="opt-btn form-btn" data-val="G">G</button>
                 <button class="opt-btn form-btn" data-val="E">E</button>
@@ -575,10 +575,10 @@
         const formsPool = ["ALL", "C", "A", "G", "E", "D"]; 
 
         let isGameMode = false;
-        let selectedRootOpt = 'RANDOM';
+        let selectedRootOpt = 'C';
         let selectedAccidentalOpt = ''; 
-        let selectedScaleOpt = 'RANDOM';
-        let selectedFormOpt = 'RANDOM';
+        let selectedScaleOpt = 'Major Pentatonic';
+        let selectedFormOpt = 'C';
         let selectedTypeOpt = 'SCALE'; 
         let selectedViewOpt = 'INTERVAL'; 
         let isFormHighlighterOn = false; 
@@ -732,6 +732,36 @@
         function updateKeyAndNotesDisplay() {
             let baseType = currentScale.includes("Major") ? "Major" : "Minor";
             if (currentScale === "Combined Pentatonic") baseType = "Major";
+
+            if (currentScale === "Combined Pentatonic") {
+                // 조표: Major / Minor 양쪽 표시
+                let majKeySig = keySigsCorrected["Major"][currentRoot];
+                let minKeySig = keySigsCorrected["Minor"][currentRoot];
+                let majText = majKeySig || "데이터 없음";
+                let minText = minKeySig || "데이터 없음";
+                keySigDisplayEl.innerText = `${majText} / ${minText} (${currentRoot} Major / ${currentRoot} Minor)`;
+
+                // 나란한 조: 각각의 나란한 조 표시
+                let majRelative = relativeKeys["Major"][currentRoot];
+                let minRelative = relativeKeys["Minor"][currentRoot];
+                let relText = [];
+                if (majRelative) relText.push(`${majRelative} Minor`);
+                if (minRelative) relText.push(`${minRelative} Major`);
+                relativeKeyDisplayEl.innerText = relText.length > 0 ? relText.join(" / ") : "데이터 없음";
+
+                // 구성음: Major Penta + Minor Penta 합집합 = 8개 (반음 순서)
+                let majorSpelled = scaleSpellings["Major"][currentRoot];
+                let minorSpelled = scaleSpellings["Minor"][currentRoot];
+                if (majorSpelled && minorSpelled) {
+                    // 1, 2, ♭3, 3, 4, 5, 6, ♭7 (반음 순서 8개)
+                    let displayNotes = [majorSpelled[0], majorSpelled[1], minorSpelled[2], majorSpelled[2], minorSpelled[3], majorSpelled[4], majorSpelled[5], minorSpelled[6]];
+                    notesListDisplayEl.innerText = displayNotes.join(" - ");
+                } else {
+                    notesListDisplayEl.innerText = "-";
+                }
+                return;
+            }
+
             let keySig = keySigsCorrected[baseType][currentRoot];
             keySigDisplayEl.innerText = keySig ? `${keySig} (${currentRoot} ${baseType})` : "조표 데이터 부족";
 
@@ -746,16 +776,7 @@
             }
 
             let displayNotes = [];
-            if (currentScale === "Combined Pentatonic") {
-                // Minor Pentatonic 고유 3음(♭3, 4, ♭7): Minor 스펠링에서 가져옴
-                let minorSpelled = scaleSpellings["Minor"][currentRoot];
-                if (minorSpelled) {
-                    // 8개 음: 1, 2, ♭3, 3, 4, 5, 6, ♭7 (반음 순서)
-                    displayNotes = [spelledArray[0], spelledArray[1], minorSpelled[2], spelledArray[2], minorSpelled[3], spelledArray[4], spelledArray[5], minorSpelled[6]];
-                } else {
-                    displayNotes = [spelledArray[0], spelledArray[1], spelledArray[2], spelledArray[4], spelledArray[5]];
-                }
-            } else if (currentScale.includes("Pentatonic")) {
+            if (currentScale.includes("Pentatonic")) {
                 if (baseType === "Major") {
                     displayNotes = [spelledArray[0], spelledArray[1], spelledArray[2], spelledArray[4], spelledArray[5]];
                 } else {
