@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>기타 지판 정복 훈련 (CAGED Master)</title>
+    <title>湲고? 吏???뺣났 ?덈젴 (CAGED Master)</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -263,7 +263,7 @@
             gap: 20px;
         }
 
-        /* 변경된 부분: 수직 스태킹(Vertical Stacking)을 위한 CSS 적용 */
+        /* 蹂寃쎈맂 遺遺? ?섏쭅 ?ㅽ깭??Vertical Stacking)???꾪븳 CSS ?곸슜 */
         .diatonic-notes-top { 
             font-size: 0.95em; 
             color: #bdc3c7; 
@@ -271,7 +271,7 @@
             letter-spacing: 1px; 
             display: flex;
             flex-direction: column;
-            gap: 4px; /* 구성음 사이의 세로 여백 */
+            gap: 4px; /* 援ъ꽦???ъ씠???몃줈 ?щ갚 */
         }
 
         .diatonic-card {
@@ -292,7 +292,7 @@
         .diatonic-num { font-size: 1.0em; color: #bdc3c7; margin-bottom: 8px; font-weight: bold; }
         .diatonic-chord { font-size: 1.3em; font-weight: 900; color: #f1c40f; }
 
-        /* 모바일 세로 모드 반응형 */
+        /* 紐⑤컮???몃줈 紐⑤뱶 諛섏쓳??*/
         @media screen and (max-width: 768px) {
             body { padding: 10px; }
             .top-header {
@@ -326,37 +326,37 @@
             <h1>CAGED Master Protocol</h1>
             
             <div class="mode-container">
-                <button id="btn-study" class="mode-btn active">📖 정답 암기 모드</button>
-                <button id="btn-game" class="mode-btn">⚔️ 실전 게임 모드</button>
+                <button id="btn-study" class="mode-btn active">?뱰 ?뺣떟 ?붽린 紐⑤뱶</button>
+                <button id="btn-game" class="mode-btn">?뷂툘 ?ㅼ쟾 寃뚯엫 紐⑤뱶</button>
             </div>
 
             <div id="target-display">
                 TARGET : <span id="target-note">-</span><br>
-                <span id="target-instruction" style="font-size: 0.6em; color: #bdc3c7;">(대기 중입니다)</span>
+                <span id="target-instruction" style="font-size: 0.6em; color: #bdc3c7;">(?湲?以묒엯?덈떎)</span>
             </div>
             
             <div class="action-container" id="game-actions" style="display: none;">
-                <button id="btn-game-refresh" class="btn-action btn-game-refresh">새로운 훈련 시작</button>
-                <button id="btn-game-answer" class="btn-action btn-game-answer">정답 보기 (3초)</button>
+                <button id="btn-game-refresh" class="btn-action btn-game-refresh">?덈줈???덈젴 ?쒖옉</button>
+                <button id="btn-game-answer" class="btn-action btn-game-answer">?뺣떟 蹂닿린 (3珥?</button>
             </div>
 
-            <div id="message">우측 패널에서 옵션을 선택하십시오.</div>
+            <div id="message">?곗륫 ?⑤꼸?먯꽌 ?듭뀡???좏깮?섏떗?쒖삤.</div>
         </div>
 
         <div class="center-panel">
-            <h3>[ 현재 조표 (Key Signature) ]</h3>
+            <h3>[ ?꾩옱 議고몴 (Key Signature) ]</h3>
             <div id="key-sig-display" class="key-sig-text">-</div>
-            <h3 style="margin-top: 5px;">[ 나란한 조 (Relative Key) ]</h3>
+            <h3 style="margin-top: 5px;">[ ?섎???議?(Relative Key) ]</h3>
             <div id="relative-key-display" class="key-sig-text" style="font-size: 1.1em; color: #3498db; margin-bottom: 10px;">-</div>
             
-            <h3 style="margin-top: 10px;">[ 스케일 구성음 ]</h3>
+            <h3 style="margin-top: 10px;">[ ?ㅼ???援ъ꽦??]</h3>
             <div id="notes-list-display" class="notes-list-text">-</div>
         </div>
 
         <div class="right-panel">
             <div class="option-row" id="row-root">
                 <span class="option-label">ROOT</span>
-                <button class="opt-btn root-btn random-btn" data-val="RANDOM">🎲 랜덤</button>
+                <button class="opt-btn root-btn random-btn" data-val="RANDOM">?렡 ?쒕뜡</button>
                 <button class="opt-btn root-btn active" data-val="C">C</button>
                 <button class="opt-btn root-btn" data-val="D">D</button>
                 <button class="opt-btn root-btn" data-val="E">E</button>
@@ -367,13 +367,13 @@
             </div>
             <div class="option-row" id="row-accidental">
                 <span class="option-label">ACCIDENTAL</span>
-                <button class="opt-btn acc-btn" data-val="b">♭ (플랫)</button>
-                <button class="opt-btn acc-btn active" data-val="">- (기본)</button>
-                <button class="opt-btn acc-btn" data-val="#"># (샵)</button>
+                <button class="opt-btn acc-btn" data-val="b">??(?뚮옯)</button>
+                <button class="opt-btn acc-btn active" data-val="">- (湲곕낯)</button>
+                <button class="opt-btn acc-btn" data-val="#"># (??</button>
             </div>
             <div class="option-row" id="row-scale">
                 <span class="option-label">SCALE</span>
-                <button class="opt-btn scale-btn random-btn" data-val="RANDOM">🎲 랜덤</button>
+                <button class="opt-btn scale-btn random-btn" data-val="RANDOM">?렡 ?쒕뜡</button>
                 <button class="opt-btn scale-btn active" data-val="Major Pentatonic">Maj Penta</button>
                 <button class="opt-btn scale-btn" data-val="Minor Pentatonic">min Penta</button>
                 <button class="opt-btn scale-btn" data-val="Combined Pentatonic">Maj+Min Penta</button>
@@ -382,11 +382,12 @@
                 <span class="option-label"></span>
                 <button class="opt-btn scale-btn" data-val="Major Scale">Major</button>
                 <button class="opt-btn scale-btn" data-val="Minor Scale">minor</button>
+                <button class="opt-btn scale-btn" data-val="Combined Diatonic">Maj+Min Dia</button>
             </div>
             <div class="option-row" id="row-form">
                 <span class="option-label">FORM</span>
-                <button class="opt-btn form-btn random-btn" data-val="RANDOM">🎲 랜덤</button>
-                <button class="opt-btn form-btn" data-val="ALL">전체</button>
+                <button class="opt-btn form-btn random-btn" data-val="RANDOM">?렡 ?쒕뜡</button>
+                <button class="opt-btn form-btn" data-val="ALL">?꾩껜</button>
                 <button class="opt-btn form-btn" data-val="C">C</button>
                 <button class="opt-btn form-btn" data-val="A">A</button>
                 <button class="opt-btn form-btn active" data-val="G">G</button>
@@ -395,15 +396,15 @@
             </div>
             <div class="option-row" id="row-type">
                 <span class="option-label">TYPE</span>
-                <button class="opt-btn type-btn active" data-val="SCALE">스케일 (Scale)</button>
-                <button class="opt-btn type-btn disabled-btn" id="btn-type-chord" data-val="CHORD">코드 폼 (Chord)</button>
+                <button class="opt-btn type-btn active" data-val="SCALE">?ㅼ???(Scale)</button>
+                <button class="opt-btn type-btn disabled-btn" id="btn-type-chord" data-val="CHORD">肄붾뱶 ??(Chord)</button>
             </div>
             <div class="option-row" id="row-view">
                 <span class="option-label">VIEW</span>
                 <button class="opt-btn view-btn active" data-val="INTERVAL">1, 2, 3</button>
                 <button class="opt-btn view-btn" data-val="NOTE">A, B, C</button>
-                <button id="btn-form-hl" class="opt-btn disabled-btn" style="margin-left: 20px; border: 2px solid #9b59b6;">🖍️ 폼 배경 OFF</button>
-                <button id="btn-octave-hl" class="opt-btn" style="border: 2px solid #f1c40f;">🌈 옥타브 OFF</button>
+                <button id="btn-form-hl" class="opt-btn disabled-btn" style="margin-left: 20px; border: 2px solid #9b59b6;">?뼃截???諛곌꼍 OFF</button>
+                <button id="btn-octave-hl" class="opt-btn" style="border: 2px solid #f1c40f;">?뙂 ?ν?釉?OFF</button>
             </div>
         </div>
     </div>
@@ -414,11 +415,11 @@
 
     <div class="bottom-panel">
         <div class="bottom-card">
-            <h3>[ 오도권 (Circle of Fifths) ]</h3>
+            <h3>[ ?ㅻ룄沅?(Circle of Fifths) ]</h3>
             <div id="circle-of-fifths"></div>
         </div>
         <div class="bottom-card">
-            <h3>[ 다이아토닉 3화음 (Diatonic Triads) ]</h3>
+            <h3>[ ?ㅼ씠?꾪넗??3?붿쓬 (Diatonic Triads) ]</h3>
             <div id="diatonic-chords-display">
             </div>
         </div>
@@ -457,17 +458,24 @@
 
         const scaleIntervals = {
             "Major Pentatonic": { 0: "1", 2: "2", 4: "3", 7: "5", 9: "6" },
-            "Minor Pentatonic": { 0: "1", 3: "♭3", 5: "4", 7: "5", 10: "♭7" },
-            "Combined Pentatonic": { 0: "1", 2: "2", 3: "♭3", 4: "3", 5: "4", 7: "5", 9: "6", 10: "♭7" },
+            "Minor Pentatonic": { 0: "1", 3: "??", 5: "4", 7: "5", 10: "??" },
+            "Combined Pentatonic": { 0: "1", 2: "2", 3: "??", 4: "3", 5: "4", 7: "5", 9: "6", 10: "??" },
             "Major Scale":      { 0: "1", 2: "2", 4: "3", 5: "4", 7: "5", 9: "6", 11: "7" },
-            "Minor Scale":      { 0: "1", 2: "2", 3: "♭3", 5: "4", 7: "5", 8: "♭6", 10: "♭7" }
+            "Minor Scale":      { 0: "1", 2: "2", 3: "??", 5: "4", 7: "5", 8: "??", 10: "??" },
+            "Combined Diatonic": { 0: "1", 2: "2", 3: "??", 4: "3", 5: "4", 7: "5", 8: "??", 9: "6", 10: "??", 11: "7" }
         };
 
         function getCombinedMarkerClass(intervalName) {
             if (intervalName === "1") return "combined-root-marker";
-            if (["2", "3", "6"].includes(intervalName)) return "combined-major-marker";
-            if (["♭3", "4", "♭7"].includes(intervalName)) return "combined-minor-marker";
-            if (intervalName === "5") return "combined-shared-marker";
+            if (currentScale === "Combined Diatonic") {
+                if (["3", "6", "7"].includes(intervalName)) return "combined-major-marker";
+                if (["??", "??", "??"].includes(intervalName)) return "combined-minor-marker";
+                if (["2", "4", "5"].includes(intervalName)) return "combined-shared-marker";
+            } else {
+                if (["2", "3", "6"].includes(intervalName)) return "combined-major-marker";
+                if (["??", "4", "??"].includes(intervalName)) return "combined-minor-marker";
+                if (intervalName === "5") return "combined-shared-marker";
+            }
             return "";
         }
 
@@ -505,8 +513,8 @@
         };
 
         const keySigsCorrected = {
-            "Major": { "C": "조표 없음", "G": "#", "D": "##", "A": "###", "E": "####", "B": "#####", "F#": "######", "C#": "#######", "F": "♭", "Bb": "♭♭", "Eb": "♭♭♭", "Ab": "♭♭♭♭", "Db": "♭♭♭♭♭", "Gb": "♭♭♭♭♭♭" },
-            "Minor": { "A": "조표 없음", "E": "#", "B": "##", "F#": "###", "C#": "####", "G#": "#####", "D": "♭", "G": "♭♭", "C": "♭♭♭", "F": "♭♭♭♭", "Bb": "♭♭♭♭♭", "Eb": "♭♭♭♭♭♭" }
+            "Major": { "C": "議고몴 ?놁쓬", "G": "#", "D": "##", "A": "###", "E": "####", "B": "#####", "F#": "######", "C#": "#######", "F": "??, "Bb": "??솸", "Eb": "??솸??, "Ab": "??솸??솸", "Db": "??솸??솸??, "Gb": "??솸??솸??솸" },
+            "Minor": { "A": "議고몴 ?놁쓬", "E": "#", "B": "##", "F#": "###", "C#": "####", "G#": "#####", "D": "??, "G": "??솸", "C": "??솸??, "F": "??솸??솸", "Bb": "??솸??솸??, "Eb": "??솸??솸??솸" }
         };
 
         const relativeKeys = {
@@ -516,22 +524,22 @@
 
         const intervalToIndexMap = {
             "Major": { "1":0, "2":1, "3":2, "4":3, "5":4, "6":5, "7":6 },
-            "Minor": { "1":0, "2":1, "♭3":2, "4":3, "5":4, "♭6":5, "♭7":6 }
+            "Minor": { "1":0, "2":1, "??":2, "4":3, "5":4, "??":5, "??":6 }
         };
 
         const pentatonicShapes = {
             1: { frets: [ [0,3], [0,3], [0,2], [0,2], [0,2], [0,3] ] }, 
             2: { frets: [ [1,3], [1,3], [0,2], [0,3], [0,3], [1,3] ] }, 
-            3: { frets: [ [1,3], [1,4], [0,3], [1,3], [1,3], [1,3] ] }, 
+            3: { frets: [ [-1,3], [1,4], [0,3], [1,3], [-1,3], [-1,3] ] }, 
             4: { frets: [ [0,3], [1,3], [0,2], [0,2], [0,3], [0,3] ] }, 
             5: { frets: [ [1,3], [1,3], [0,3], [0,3], [1,3], [1,3] ] }  
         };
 
         const diatonicShapes = {
-            1: { frets: [ [0,3], [0,3], [0,2], [0,2], [0,3], [0,3] ] }, 
+            1: { frets: [ [0,3], [0,3], [-1,3], [0,3], [0,3], [0,3] ] }, 
             2: { frets: [ [0,3], [1,3], [0,3], [0,3], [0,3], [0,3] ] }, 
-            3: { frets: [ [1,3], [1,4], [0,3], [0,3], [1,3], [1,3] ] }, 
-            4: { frets: [ [0,3], [0,3], [0,2], [0,3], [0,3], [0,3] ] }, 
+            3: { frets: [ [-1,3], [1,3], [0,3], [0,3], [-1,3], [-1,3] ] }, 
+            4: { frets: [ [0,3], [0,3], [0,3], [0,3], [0,3], [0,3] ] }, 
             5: { frets: [ [1,3], [1,4], [0,3], [0,3], [0,3], [1,3] ] }  
         };
 
@@ -571,7 +579,7 @@
         };
 
         const rootsPool = ["C", "D", "E", "F", "G", "A", "B"];
-        const scalesPool = ["Major Pentatonic", "Minor Pentatonic", "Combined Pentatonic", "Major Scale", "Minor Scale"];
+        const scalesPool = ["Major Pentatonic", "Minor Pentatonic", "Combined Pentatonic", "Major Scale", "Minor Scale", "Combined Diatonic"];
         const formsPool = ["ALL", "C", "A", "G", "E", "D"]; 
 
         let isGameMode = false;
@@ -667,10 +675,10 @@
             
             let degrees, qualities;
             if(isMinor) {
-                degrees = ["i", "ii°", "III", "iv", "v", "VI", "VII"];
+                degrees = ["i", "ii째", "III", "iv", "v", "VI", "VII"];
                 qualities = ["m", "dim", "", "m", "m", "", ""];
             } else {
-                degrees = ["I", "ii", "iii", "IV", "V", "vi", "vii°"];
+                degrees = ["I", "ii", "iii", "IV", "V", "vi", "vii째"];
                 qualities = ["", "m", "m", "", "", "m", "dim"];
             }
 
@@ -689,7 +697,7 @@
                     let thirdNote = spelled[(i + 2) % 7];
                     let fifthNote = spelled[(i + 4) % 7];
                     
-                    // 변경된 부분: 5도, 3도, 근음 순으로 각각 <div>로 감싸 수직으로 정렬시킴
+                    // 蹂寃쎈맂 遺遺? 5?? 3?? 洹쇱쓬 ?쒖쑝濡?媛곴컖 <div>濡?媛먯떥 ?섏쭅?쇰줈 ?뺣젹?쒗궡
                     let notesTop = document.createElement("div");
                     notesTop.className = "diatonic-notes-top";
                     notesTop.innerHTML = `
@@ -711,7 +719,7 @@
                 }
                 diatonicContainer.appendChild(wrapper);
             } else {
-                diatonicContainer.innerHTML = "<div style='color: #e74c3c; font-weight: bold;'>해당 조표의 구성음 데이터가 존재하지 않습니다.</div>";
+                diatonicContainer.innerHTML = "<div style='color: #e74c3c; font-weight: bold;'>?대떦 議고몴??援ъ꽦???곗씠?곌? 議댁옱?섏? ?딆뒿?덈떎.</div>";
             }
         }
 
@@ -731,30 +739,36 @@
 
         function updateKeyAndNotesDisplay() {
             let baseType = currentScale.includes("Major") ? "Major" : "Minor";
-            if (currentScale === "Combined Pentatonic") baseType = "Major";
+            if (currentScale.includes("Combined")) baseType = "Major";
 
-            if (currentScale === "Combined Pentatonic") {
-                // 조표: Major / Minor 양쪽 표시
+            if (currentScale.includes("Combined")) {
+                // 議고몴: Major / Minor ?묒そ ?쒖떆
                 let majKeySig = keySigsCorrected["Major"][currentRoot];
                 let minKeySig = keySigsCorrected["Minor"][currentRoot];
-                let majText = majKeySig || "데이터 없음";
-                let minText = minKeySig || "데이터 없음";
+                let majText = majKeySig || "?곗씠???놁쓬";
+                let minText = minKeySig || "?곗씠???놁쓬";
                 keySigDisplayEl.innerText = `${majText} / ${minText} (${currentRoot} Major / ${currentRoot} Minor)`;
 
-                // 나란한 조: 각각의 나란한 조 표시
+                // ?섎???議? 媛곴컖???섎???議??쒖떆
                 let majRelative = relativeKeys["Major"][currentRoot];
                 let minRelative = relativeKeys["Minor"][currentRoot];
                 let relText = [];
                 if (majRelative) relText.push(`${majRelative} Minor`);
                 if (minRelative) relText.push(`${minRelative} Major`);
-                relativeKeyDisplayEl.innerText = relText.length > 0 ? relText.join(" / ") : "데이터 없음";
+                relativeKeyDisplayEl.innerText = relText.length > 0 ? relText.join(" / ") : "?곗씠???놁쓬";
 
-                // 구성음: Major Penta + Minor Penta 합집합 = 8개 (반음 순서)
+                // 援ъ꽦?? Major + Minor ?⑹쭛??(諛섏쓬 ?쒖꽌)
                 let majorSpelled = scaleSpellings["Major"][currentRoot];
                 let minorSpelled = scaleSpellings["Minor"][currentRoot];
                 if (majorSpelled && minorSpelled) {
-                    // 1, 2, ♭3, 3, 4, 5, 6, ♭7 (반음 순서 8개)
-                    let displayNotes = [majorSpelled[0], majorSpelled[1], minorSpelled[2], majorSpelled[2], minorSpelled[3], majorSpelled[4], majorSpelled[5], minorSpelled[6]];
+                    let displayNotes;
+                    if (currentScale === "Combined Diatonic") {
+                        // 10媛? 1, 2, ??, 3, 4, 5, ??, 6, ??, 7
+                        displayNotes = [majorSpelled[0], majorSpelled[1], minorSpelled[2], majorSpelled[2], majorSpelled[3], majorSpelled[4], minorSpelled[5], majorSpelled[5], minorSpelled[6], majorSpelled[6]];
+                    } else {
+                        // 8媛? 1, 2, ??, 3, 4, 5, 6, ??
+                        displayNotes = [majorSpelled[0], majorSpelled[1], minorSpelled[2], majorSpelled[2], minorSpelled[3], majorSpelled[4], majorSpelled[5], minorSpelled[6]];
+                    }
                     notesListDisplayEl.innerText = displayNotes.join(" - ");
                 } else {
                     notesListDisplayEl.innerText = "-";
@@ -763,11 +777,11 @@
             }
 
             let keySig = keySigsCorrected[baseType][currentRoot];
-            keySigDisplayEl.innerText = keySig ? `${keySig} (${currentRoot} ${baseType})` : "조표 데이터 부족";
+            keySigDisplayEl.innerText = keySig ? `${keySig} (${currentRoot} ${baseType})` : "議고몴 ?곗씠??遺議?;
 
             let relativeKeyNote = relativeKeys[baseType][currentRoot];
             let relativeKeyType = baseType === "Major" ? "Minor" : "Major";
-            relativeKeyDisplayEl.innerText = relativeKeyNote ? `${relativeKeyNote} ${relativeKeyType}` : "데이터 없음";
+            relativeKeyDisplayEl.innerText = relativeKeyNote ? `${relativeKeyNote} ${relativeKeyType}` : "?곗씠???놁쓬";
 
             let spelledArray = scaleSpellings[baseType][currentRoot];
             if (!spelledArray) {
@@ -791,8 +805,8 @@
         function getMarkerText(intervalName) {
             if (selectedViewOpt === "INTERVAL") return intervalName; 
             
-            if (currentScale === "Combined Pentatonic") {
-                const minorIntervals = ["♭3", "4", "♭7"];
+            if (currentScale.includes("Combined")) {
+                const minorIntervals = ["??", "4", "??", "??"];
                 if (minorIntervals.includes(intervalName)) {
                     let spelledArray = scaleSpellings["Minor"][currentRoot];
                     let idx = intervalToIndexMap["Minor"][intervalName];
@@ -817,7 +831,7 @@
             const formCBtn = document.querySelector('.form-btn[data-val="C"]');
             const formGBtn = document.querySelector('.form-btn[data-val="G"]');
 
-            const isCombinedPenta = selectedScaleOpt === "Combined Pentatonic" || currentScale === "Combined Pentatonic";
+            const isCombinedPenta = selectedScaleOpt.includes("Combined") || currentScale.includes("Combined");
 
             if (selectedFormOpt === 'ALL' || selectedFormOpt === 'RANDOM' || isCombinedPenta) {
                 chordBtn.classList.add('disabled-btn');
@@ -867,21 +881,21 @@
             }
 
             if (isFormHighlighterOn) {
-                hlFormBtn.innerText = '🖍️ 폼 배경 ON';
+                hlFormBtn.innerText = '?뼃截???諛곌꼍 ON';
                 hlFormBtn.style.backgroundColor = '#9b59b6';
                 hlFormBtn.style.color = '#ffffff';
             } else {
-                hlFormBtn.innerText = '🖍️ 폼 배경 OFF';
+                hlFormBtn.innerText = '?뼃截???諛곌꼍 OFF';
                 hlFormBtn.style.backgroundColor = '#222';
                 hlFormBtn.style.color = '#bdc3c7';
             }
 
             if (isOctaveHighlighterOn) {
-                hlOctBtn.innerText = '🌈 옥타브 ON';
+                hlOctBtn.innerText = '?뙂 ?ν?釉?ON';
                 hlOctBtn.style.backgroundColor = '#f1c40f';
                 hlOctBtn.style.color = '#1a1a1a';
             } else {
-                hlOctBtn.innerText = '🌈 옥타브 OFF';
+                hlOctBtn.innerText = '?뙂 ?ν?釉?OFF';
                 hlOctBtn.style.backgroundColor = '#222';
                 hlOctBtn.style.color = '#bdc3c7';
             }
@@ -999,7 +1013,7 @@
                     noteMarker.dataset.interval = intervalName; 
                     noteMarker.innerText = getMarkerText(intervalName);
 
-                    if (currentScale === "Combined Pentatonic") {
+                    if (currentScale.includes("Combined")) {
                         let combinedClass = getCombinedMarkerClass(intervalName);
                         if (combinedClass) {
                             noteMarker.classList.add(combinedClass);
@@ -1015,10 +1029,10 @@
             });
 
             messageEl.style.color = "#e74c3c";
-            messageEl.innerText = `정답을 3초간 개방합니다. 집중하십시오!`;
+            messageEl.innerText = `?뺣떟??3珥덇컙 媛쒕갑?⑸땲?? 吏묒쨷?섏떗?쒖삤!`;
 
             hintTimerId = setTimeout(() => {
-                if (currentScale === "Combined Pentatonic") {
+                if (currentScale.includes("Combined")) {
                     hintedMarkers.forEach(({ marker, cls }) => {
                         marker.classList.remove(cls);
                         marker.innerText = "";
@@ -1030,19 +1044,19 @@
                     });
                 }
                 messageEl.style.color = "#f39c12";
-                messageEl.innerText = `⚔️ 타겟을 찾아 지판을 클릭하십시오. (성공: ${foundCount}/${requiredTotal})`;
+                messageEl.innerText = `?뷂툘 ?寃잛쓣 李얠븘 吏?먯쓣 ?대┃?섏떗?쒖삤. (?깃났: ${foundCount}/${requiredTotal})`;
             }, 3000);
         });
 
         function initFretboard() {
-            let headerRow = "<tr><th>줄 \\ 프렛</th>";
+            let headerRow = "<tr><th>以?\\ ?꾨젢</th>";
             for (let i = 0; i <= 24; i++) { 
-                headerRow += `<th>${i === 0 ? '0(개방)' : i}</th>`;
+                headerRow += `<th>${i === 0 ? '0(媛쒕갑)' : i}</th>`;
             }
             headerRow += "</tr>";
             fretboardEl.innerHTML += headerRow;
 
-            const stringNames = ["1번 (E)", "2번 (B)", "3번 (G)", "4번 (D)", "5번 (A)", "6번 (E)"];
+            const stringNames = ["1踰?(E)", "2踰?(B)", "3踰?(G)", "4踰?(D)", "5踰?(A)", "6踰?(E)"];
             const singleMarkers = [3, 5, 7, 9, 15, 17, 19, 21]; 
             const doubleMarkers = [12, 24];
 
@@ -1129,10 +1143,11 @@
             requiredCells = [];
             let isPentatonic = currentScale.includes("Pentatonic");
             let baseType = currentScale.includes("Major") ? "Major" : "Minor";
-            if (currentScale === "Combined Pentatonic") baseType = "Major";
+            if (currentScale.includes("Combined")) baseType = "Major";
             let rootForFretboard = flatToSharp[currentRoot] || currentRoot;
             
             let activeShapes = isPentatonic ? pentatonicShapes : diatonicShapes;
+            if (currentScale === "Combined Diatonic") activeShapes = diatonicShapes;
 
             if (currentForm === "ALL") {
                 let rootIndex = chromaticScale.indexOf(rootForFretboard);
@@ -1171,17 +1186,20 @@
                 return;
             }
 
-            // Combined Pentatonic: Major + Minor 양쪽 Shape 범위를 모두 커버
+            // Combined: Major + Minor ?묒そ Shape 踰붿쐞瑜?紐⑤몢 而ㅻ쾭
             let shapesToUse = [];
-            if (currentScale === "Combined Pentatonic") {
-                shapesToUse.push({ shapeId: formToPentaShapeMap["Major"][currentForm], anchor: pentaRootOffsets["Major"][currentForm] });
-                shapesToUse.push({ shapeId: formToPentaShapeMap["Minor"][currentForm], anchor: pentaRootOffsets["Minor"][currentForm] });
+            if (currentScale.includes("Combined")) {
+                let combinedShapes = currentScale === "Combined Diatonic" ? diatonicShapes : pentatonicShapes;
+                let majShapeId = formToPentaShapeMap["Major"][currentForm];
+                let minShapeId = formToPentaShapeMap["Minor"][currentForm];
+                shapesToUse.push({ shapeId: majShapeId, anchor: pentaRootOffsets["Major"][currentForm], shapes: combinedShapes });
+                shapesToUse.push({ shapeId: minShapeId, anchor: pentaRootOffsets["Minor"][currentForm], shapes: combinedShapes });
             } else {
-                shapesToUse.push({ shapeId: formToPentaShapeMap[baseType][currentForm], anchor: pentaRootOffsets[baseType][currentForm] });
+                shapesToUse.push({ shapeId: formToPentaShapeMap[baseType][currentForm], anchor: pentaRootOffsets[baseType][currentForm], shapes: activeShapes });
             }
 
-            shapesToUse.forEach(({ shapeId, anchor }) => {
-                let shape = activeShapes[shapeId];
+            shapesToUse.forEach(({ shapeId, anchor, shapes }) => {
+                let shape = shapes[shapeId];
                 let anchorStringNotes = stringsNotes[anchor.s];
 
                 let rootFrets = [];
@@ -1352,7 +1370,7 @@
                         noteMarker.dataset.interval = intervalName;
                         noteMarker.innerText = getMarkerText(intervalName);
                         
-                        if (currentScale === "Combined Pentatonic") {
+                        if (currentScale.includes("Combined")) {
                             noteMarker.classList.add(getCombinedMarkerClass(intervalName));
                         } else if (isPentatonic && selectedTypeOpt !== "CHORD") {
                             noteMarker.classList.add("all-mode-marker"); 
@@ -1389,7 +1407,7 @@
                         noteMarker.dataset.interval = intervalName;
                         noteMarker.innerText = getMarkerText(intervalName);
                         
-                        if (currentScale === "Combined Pentatonic") {
+                        if (currentScale.includes("Combined")) {
                             noteMarker.classList.add(getCombinedMarkerClass(intervalName));
                         } else if (isPentatonic) {
                             noteMarker.classList.add("all-mode-marker"); 
@@ -1408,7 +1426,7 @@
         }
 
         function drawConnectionLines() {
-            if (currentScale === "Combined Pentatonic") return;
+            if (currentScale.includes("Combined")) return;
             if (currentForm !== "ALL") return;
 
             let isMajorPenta = currentScale === "Major Pentatonic";
@@ -1464,7 +1482,7 @@
                     }
                 } else if (isMinorPenta) {
                     for (let i = 0; i <= notesOnString.length - 3; i++) {
-                        if (notesOnString[i].interval === "♭3" &&
+                        if (notesOnString[i].interval === "??" &&
                             notesOnString[i+1].interval === "4" &&
                             notesOnString[i+2].interval === "5") {
                             if (notesOnString[i+1].fret - notesOnString[i].fret <= 3 && notesOnString[i+2].fret - notesOnString[i+1].fret <= 3) {
@@ -1480,7 +1498,7 @@
                         }
                     }
                     for (let i = 0; i <= notesOnString.length - 2; i++) {
-                        if (notesOnString[i].interval === "♭7" && notesOnString[i+1].interval === "1") {
+                        if (notesOnString[i].interval === "??" && notesOnString[i+1].interval === "1") {
                             if (notesOnString[i+1].fret - notesOnString[i].fret <= 3) {
                                 let f1 = notesOnString[i].fret;
                                 let f2 = notesOnString[i+1].fret;
@@ -1518,10 +1536,10 @@
 
             updateHighlighterBtnUI(); 
 
-            if (currentScale === "Combined Pentatonic") {
-                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} Combined Pentatonic` : `${currentForm}폼의 ${currentRoot} Combined Pentatonic`;
+            if (currentScale.includes("Combined")) {
+                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} Combined Pentatonic` : `${currentForm}?쇱쓽 ${currentRoot} Combined Pentatonic`;
             } else {
-                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} ${currentScale}` : `${currentForm}폼의 ${currentRoot} ${currentScale}`;
+                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} ${currentScale}` : `${currentForm}?쇱쓽 ${currentRoot} ${currentScale}`;
             }
             if(selectedTypeOpt === "CHORD" && currentScale !== "Combined Pentatonic") {
                 let baseType = currentScale.includes("Major") ? "Major" : "Minor";
@@ -1543,9 +1561,9 @@
 
             updateBottomPanels(); 
 
-            instructionEl.innerText = `(해당 영역의 정답이 실시간 렌더링되었습니다)`;
+            instructionEl.innerText = `(?대떦 ?곸뿭???뺣떟???ㅼ떆媛??뚮뜑留곷릺?덉뒿?덈떎)`;
             messageEl.style.color = "#2ecc71";
-            messageEl.innerText = `📖 지판의 구조를 눈으로 파악하십시오.`;
+            messageEl.innerText = `?뱰 吏?먯쓽 援ъ“瑜??덉쑝濡??뚯븙?섏떗?쒖삤.`;
         }
 
         function nextQuestion() {
@@ -1563,10 +1581,10 @@
 
             updateHighlighterBtnUI(); 
 
-            if (currentScale === "Combined Pentatonic") {
-                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} Combined Pentatonic` : `${currentForm}폼의 ${currentRoot} Combined Pentatonic`;
+            if (currentScale.includes("Combined")) {
+                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} Combined Pentatonic` : `${currentForm}?쇱쓽 ${currentRoot} Combined Pentatonic`;
             } else {
-                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} ${currentScale}` : `${currentForm}폼의 ${currentRoot} ${currentScale}`;
+                targetNoteEl.innerText = currentForm === "ALL" ? `${currentRoot} ${currentScale}` : `${currentForm}?쇱쓽 ${currentRoot} ${currentScale}`;
             }
             if(selectedTypeOpt === "CHORD" && currentScale !== "Combined Pentatonic") {
                 let baseType = currentScale.includes("Major") ? "Major" : "Minor";
@@ -1581,9 +1599,9 @@
 
             updateBottomPanels(); 
 
-            instructionEl.innerText = `(지판에 존재하는 타겟 총 ${requiredTotal}개를 모두 찾으십시오)`;
+            instructionEl.innerText = `(吏?먯뿉 議댁옱?섎뒗 ?寃?珥?${requiredTotal}媛쒕? 紐⑤몢 李얠쑝??떆??`;
             messageEl.style.color = "#f39c12";
-            messageEl.innerText = `⚔️ 타겟을 찾아 지판을 타격(클릭)하십시오.`;
+            messageEl.innerText = `?뷂툘 ?寃잛쓣 李얠븘 吏?먯쓣 ?寃??대┃)?섏떗?쒖삤.`;
         }
 
         function checkAnswer(clickedCell) {
@@ -1594,7 +1612,7 @@
             if (noteMarker.classList.contains("correct-marker") || noteMarker.classList.contains("combined-major-marker") || noteMarker.classList.contains("combined-minor-marker") || noteMarker.classList.contains("combined-shared-marker") || noteMarker.classList.contains("combined-root-marker") || noteMarker.classList.contains("hint-marker")) {
                 if (noteMarker.classList.contains("hint-marker")) {
                     noteMarker.classList.remove("hint-marker", "hint-root-marker");
-                    if (currentScale === "Combined Pentatonic") {
+                    if (currentScale.includes("Combined")) {
                         let combinedClass = getCombinedMarkerClass(noteMarker.dataset.interval);
                         if (combinedClass) noteMarker.classList.add(combinedClass);
                     } else {
@@ -1621,7 +1639,7 @@
                     noteMarker.dataset.interval = intervalName;
                     noteMarker.innerText = getMarkerText(intervalName);
                     
-                    if (currentScale === "Combined Pentatonic") {
+                    if (currentScale.includes("Combined")) {
                         let combinedClass = getCombinedMarkerClass(intervalName);
                         if (combinedClass) noteMarker.classList.add(combinedClass);
                     } else {
@@ -1645,17 +1663,17 @@
                     noteMarker.classList.add("wrong-marker"); 
 
                     messageEl.style.color = "#e74c3c";
-                    messageEl.innerText = `오답입니다! 그곳은 온전한 형태의 타겟이 아닙니다. (성공: ${foundCount}/${requiredTotal})`;
+                    messageEl.innerText = `?ㅻ떟?낅땲?? 洹멸납? ?⑥쟾???뺥깭???寃잛씠 ?꾨떃?덈떎. (?깃났: ${foundCount}/${requiredTotal})`;
                     return; 
                 }
             }
 
             if (foundCount === requiredTotal) {
                 messageEl.style.color = "#2ecc71";
-                messageEl.innerText = `훌륭하십니다! 모든 타겟을 찾으셨습니다! 다음 훈련을 위해 '새로운 훈련 시작'을 누르십시오.`;
+                messageEl.innerText = `?뚮??섏떗?덈떎! 紐⑤뱺 ?寃잛쓣 李얠쑝?⑥뒿?덈떎! ?ㅼ쓬 ?덈젴???꾪빐 '?덈줈???덈젴 ?쒖옉'???꾨Ⅴ??떆??`;
             } else {
                 messageEl.style.color = "#f1c40f";
-                messageEl.innerText = `정확합니다! 찾아낸 타겟: ${foundCount} / ${requiredTotal}`;
+                messageEl.innerText = `?뺥솗?⑸땲?? 李얠븘???寃? ${foundCount} / ${requiredTotal}`;
             }
         }
 
