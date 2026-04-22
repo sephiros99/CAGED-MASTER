@@ -901,6 +901,51 @@
             }
         }
 
+        function saveSettings() {
+            const settings = {
+                root: selectedRootOpt,
+                accidental: selectedAccidentalOpt,
+                scale: selectedScaleOpt,
+                form: selectedFormOpt,
+                type: selectedTypeOpt,
+                view: selectedViewOpt,
+                formHL: isFormHighlighterOn,
+                octaveHL: isOctaveHighlighterOn
+            };
+            localStorage.setItem('cagedMasterSettings', JSON.stringify(settings));
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('cagedMasterSettings');
+            if (!saved) return;
+            try {
+                const s = JSON.parse(saved);
+                if (s.root) selectedRootOpt = s.root;
+                if (s.accidental !== undefined) selectedAccidentalOpt = s.accidental;
+                if (s.scale) selectedScaleOpt = s.scale;
+                if (s.form) selectedFormOpt = s.form;
+                if (s.type) selectedTypeOpt = s.type;
+                if (s.view) selectedViewOpt = s.view;
+                if (s.formHL !== undefined) isFormHighlighterOn = s.formHL;
+                if (s.octaveHL !== undefined) isOctaveHighlighterOn = s.octaveHL;
+
+                // UI 버튼 active 상태 복원
+                const btnMap = {
+                    'root-btn': selectedRootOpt,
+                    'acc-btn': selectedAccidentalOpt,
+                    'scale-btn': selectedScaleOpt,
+                    'form-btn': selectedFormOpt,
+                    'type-btn': selectedTypeOpt,
+                    'view-btn': selectedViewOpt
+                };
+                for (const [cls, val] of Object.entries(btnMap)) {
+                    document.querySelectorAll(`.${cls}`).forEach(b => b.classList.remove('active'));
+                    const target = document.querySelector(`.${cls}[data-val="${val}"]`);
+                    if (target) target.classList.add('active');
+                }
+            } catch(e) {}
+        }
+
         function refreshBackgroundsOnly() {
             const cells = document.querySelectorAll("#fretboard td");
             cells.forEach(cell => {
@@ -937,7 +982,8 @@
             isFormHighlighterOn = !isFormHighlighterOn;
             if (isFormHighlighterOn) isOctaveHighlighterOn = false;
             updateHighlighterBtnUI();
-            refreshBackgroundsOnly(); 
+            refreshBackgroundsOnly();
+            saveSettings();
         });
 
         document.getElementById("btn-octave-hl").addEventListener("click", function() {
@@ -945,7 +991,8 @@
             isOctaveHighlighterOn = !isOctaveHighlighterOn;
             if (isOctaveHighlighterOn) isFormHighlighterOn = false;
             updateHighlighterBtnUI();
-            refreshBackgroundsOnly(); 
+            refreshBackgroundsOnly();
+            saveSettings();
         });
 
         function setupOptionButtons(btnClass, stateSetter) {
@@ -957,6 +1004,7 @@
                     btn.classList.add('active');
                     stateSetter(btn.dataset.val);
                     updateOptionsUI();
+                    saveSettings();
                     
                     if (!isGameMode) {
                         if(btnClass === 'view-btn') {
@@ -1678,6 +1726,7 @@
         }
 
         initFretboard(); 
+        loadSettings();
         
         isGameMode = false;
         document.getElementById("btn-study").classList.add("active");
